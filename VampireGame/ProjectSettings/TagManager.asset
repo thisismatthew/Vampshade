@@ -6,6 +6,9 @@ TagManager:
   tags:
   - layerPivot
   - shadow
+  - sortBehind
+  - sortInfront
+  - player
   layers:
   - Default
   - TransparentFX
