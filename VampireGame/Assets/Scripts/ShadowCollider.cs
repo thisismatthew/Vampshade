@@ -8,22 +8,15 @@ public class ShadowCollider : MonoBehaviour
     public Color startColor;
     public Color shadedColor;
 
-    private void Start()
-    {
-        startColor = vamp.GetComponent<Renderer>().material.GetColor("_Color");
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.transform.GetComponent<Player>().shaded = true;
-        vamp.GetComponent<Renderer>().material.SetColor("_Color", shadedColor);
+        collision.transform.GetComponent<Player>().shaded +=1;
         //Debug.Log("Shaded");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.transform.GetComponent<Player>().shaded = false;
-        vamp.GetComponent<Renderer>().material.SetColor("_Color", startColor);
+        collision.transform.GetComponent<Player>().shaded -= 1;
+        
     }
 }

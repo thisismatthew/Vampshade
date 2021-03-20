@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        playerPhysics.MovePosition(playerPhysics.position + inputDir * dashSpeed * Time.fixedDeltaTime);
+        playerPhysics.MovePosition(playerPhysics.position + inputDir * characterSpeed * Time.fixedDeltaTime);
 
     }
 }
