@@ -11,27 +11,33 @@ public class Player : MonoBehaviour
     public HealthBar healthBar;
     public int LightIntensity = 10;
     private Color startColor;
+    private Renderer spriteRenderer;
     public Color shadedColor;
 
     void Start()
     {
-        startColor = GetComponent<Renderer>().material.GetColor("_Color");
+        spriteRenderer = GetComponent<Renderer>();
+        startColor = spriteRenderer.material.GetColor("_Color");
         currentHealth = maxHealth;
         healthBar.SetMaxHealth((int)maxHealth);
     }
 
     private void Update()
     {
-        if (shaded > 0)
+        //spriteRenderer.sortingOrder = (int)((transform.position.x + transform.position.y));
+
+        if (shaded < 0)
         {
+            //ouch sunlight!
             currentHealth -= Time.deltaTime * LightIntensity;
             healthBar.SetHealth((int)currentHealth);
-            //be shaded
-            GetComponent<Renderer>().material.SetColor("_Color", shadedColor);
+            spriteRenderer.material.SetColor("_Color", startColor);
         }
         else
         {
-            GetComponent<Renderer>().material.SetColor("_Color", startColor);
+            //be shaded
+            spriteRenderer.material.SetColor("_Color", shadedColor);
+
         }
     }
 

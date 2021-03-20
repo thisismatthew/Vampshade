@@ -10,13 +10,19 @@ public class ShadowCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.transform.GetComponent<Player>().shaded +=1;
-        //Debug.Log("Shaded");
+        if (collision.tag == "shadow")
+        {
+            collision.transform.GetComponent<Player>().shaded += 1;
+            //Debug.Log("Shaded");
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.transform.GetComponent<Player>().shaded -= 1;
-        
+        if (collision.tag == "shadow")
+        {
+            collision.transform.GetComponent<Player>().shaded -= 1;
+        }
     }
 }
