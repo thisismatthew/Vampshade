@@ -2935,6 +2935,10 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 906677897823359174, guid: b0f07d7983c944eae9db57ebcce54348, type: 3}
+      propertyPath: batDuration
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 906677897823359174, guid: b0f07d7983c944eae9db57ebcce54348, type: 3}
       propertyPath: dashDuration
       value: 0.1
       objectReference: {fileID: 0}
