@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// PlayerScript requires the GameObject to have a Rigidbody component
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float CharacterSpeed = 1.0f;
-    private Vector2 InputDir;
+    private float characterSpeed = 1.0f;
+    public float dashSpeed = 10f;
+    private Vector2 inputDir;
     public Animator animator;
-    public Rigidbody2D PlayerPhysics;
-    public Vector2 WhereAmI;
-    public Vector2 WhereTo;
+    private Rigidbody2D playerPhysics;
+    private Vector2 still = new Vector2(0, 0);
 
     void Awake()
     {
 
-        PlayerPhysics = GetComponent<Rigidbody2D>();
+        playerPhysics = GetComponent<Rigidbody2D>();
 
     }
 
     void Update()
     {
-
-        float VertInput = Input.GetAxis("Vertical");
-        float HorInput = Input.GetAxis("Horizontal");
-        InputDir = new Vector2(HorInput, VertInput).normalized;
-        
+        // BASIC MOVEMENT STUFF
+        float VertInput = Input.GetAxisRaw("Vertical");
+        float HorInput = Input.GetAxisRaw("Horizontal");
+        inputDir = new Vector2(HorInput, VertInput).normalized;
         if (HorInput < 0)
         {
             transform.GetComponent<SpriteRenderer>().flipX = true;
@@ -35,8 +36,7 @@ public class PlayerMovement : MonoBehaviour
             transform.GetComponent<SpriteRenderer>().flipX = false;
 
         }
-
-        if (WhereAmI != WhereTo)
+        if (inputDir != still)
         {
             animator.SetBool("Running", true);
         }else
@@ -44,14 +44,19 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Running", false);
         }
 
+        // DASH 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //want to move the pkayer the direction they are facing
+            Debug.Log("Dashing");
+            playerPhysics.MovePosition(playerPhysics.position + inputDir * characterSpeed);
+        }
+
     }
 
     void FixedUpdate()
     {
-
-        WhereAmI = PlayerPhysics.position;
-        WhereTo = WhereAmI + (InputDir * CharacterSpeed) * Time.fixedDeltaTime;
-        PlayerPhysics.MovePosition(WhereTo);
+        playerPhysics.MovePosition(playerPhysics.position + inputDir * dashSpeed * Time.fixedDeltaTime);
 
     }
 }
