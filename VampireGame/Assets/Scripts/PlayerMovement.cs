@@ -8,17 +8,20 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float characterSpeed = 1.0f;
-    public float dashSpeed = 10f;
-    private Vector2 inputDir;
+    public Vector2 inputDir;
     public Animator animator;
-    private Rigidbody2D playerPhysics;
-    private Vector2 still = new Vector2(0, 0);
+    private Rigidbody2D rb;
+
+    public float dashSpeed;
+    public float dashTime;
+    public float dashDuration;
+    public GameObject TransformCloudEffect;
+    public float batDuration;
+    private float transitionTimer;
 
     void Awake()
     {
-
-        playerPhysics = GetComponent<Rigidbody2D>();
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -36,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             transform.GetComponent<SpriteRenderer>().flipX = false;
 
         }
-        if (inputDir != still)
+        if (inputDir != Vector2.zero)
         {
             animator.SetBool("Running", true);
         }else
@@ -44,19 +47,44 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Running", false);
         }
 
-        // DASH 
+        // ENABLE DASH
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //want to move the pkayer the direction they are facing
-            Debug.Log("Dashing");
-            playerPhysics.MovePosition(playerPhysics.position + inputDir * characterSpeed);
+            dashTime = dashDuration;
+            Instantiate(TransformCloudEffect, transform.position, transform.rotation);
+            transitionTimer = batDuration;
         }
+
+        
 
     }
 
     void FixedUpdate()
     {
-        playerPhysics.MovePosition(playerPhysics.position + inputDir * characterSpeed * Time.fixedDeltaTime);
+        // only sets walk movement when not in a dash
+        if (dashTime >= 0)
+        {
+            Debug.Log("dashing");
+            rb.velocity = inputDir * dashSpeed;
+            
+            dashTime -= Time.deltaTime;
+        }
+        else
+        {
+            rb.MovePosition(rb.position + inputDir * characterSpeed * Time.fixedDeltaTime);
+            rb.velocity = Vector2.zero;
+
+        }
+
+        if (transitionTimer >= 0)
+        {
+            animator.SetBool("Dash", true);
+            transitionTimer -= Time.deltaTime;
+        }
+        else
+        {
+            animator.SetBool("Dash", false);
+        }
 
     }
 }

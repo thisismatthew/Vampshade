@@ -30,16 +30,19 @@ public class Player : MonoBehaviour
         if (shaded <= 0)
         {
             //ouch sunlight!
-            currentHealth -= Time.deltaTime * LightIntensity;
-            healthBar.SetHealth((int)currentHealth);
+            if (currentHealth > 0)
+                currentHealth -= Time.deltaTime * LightIntensity;
             spriteRenderer.material.SetColor("_Color", startColor);
         }
         else
         {
             //be shaded
             spriteRenderer.material.SetColor("_Color", shadedColor);
-
+            if (currentHealth < maxHealth)
+                currentHealth += Time.deltaTime * LightIntensity;
         }
+
+        healthBar.SetHealth((int)currentHealth);
     }
 
 }
