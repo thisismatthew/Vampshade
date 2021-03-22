@@ -12,14 +12,14 @@ public class IsometricLayerOrder : MonoBehaviour
         if (collision.tag == ("sortInfront"))
         {
             GetComponent<Renderer>().sortingOrder = 1;
-            Debug.Log("Infront");
+/*            Debug.Log("Infront");*/
         }
 
         if (collision.tag == ("sortBehind"))
         {
             GetComponent<Renderer>().sortingOrder = -1;
-            Debug.Log("Behind");
-
+/*            Debug.Log("Behind");
+*/
         }
     }
 
@@ -31,7 +31,7 @@ public class IsometricLayerOrder : MonoBehaviour
             if (GetComponent<Player>().layerColliderCounter == 0)
             {
                 GetComponent<Renderer>().sortingOrder = 0;
-                Debug.Log("Unordered");
+/*                Debug.Log("Unordered");*/
             }
         }
     }

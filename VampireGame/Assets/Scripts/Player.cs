@@ -14,9 +14,14 @@ public class Player : MonoBehaviour
     private Color startColor;
     private Renderer spriteRenderer;
     public Color shadedColor;
+    public bool day = true;
+    public Vector2 levelStart;
+    private Animator animator;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+        levelStart = transform.position;
         spriteRenderer = GetComponent<Renderer>();
         startColor = spriteRenderer.material.GetColor("_Color");
         currentHealth = maxHealth;
@@ -25,8 +30,18 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        //spriteRenderer.sortingOrder = (int)((transform.position.x + transform.position.y));
+        CheckShade();
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (day) { day = false; } else { day = true; }
+            Debug.Log("Sleeptime");
+            animator.Play("vamp_coffin_in");
+        }
+    }
+
+    private void CheckShade()
+    {
         if (shaded <= 0)
         {
             //ouch sunlight!
@@ -43,6 +58,18 @@ public class Player : MonoBehaviour
         }
 
         healthBar.SetHealth((int)currentHealth);
-    }
 
+        if (currentHealth <= 0)
+        {
+            animator.Play("vamp_die");
+            currentHealth += 5;
+        }
+    }
+    
+    private void DiurnalTransition()
+    {
+        transform.position = levelStart;
+        //set the level to be day or night
+        animator.Play("vamp_coffin_out");
+    }
 }

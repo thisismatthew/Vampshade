@@ -68,8 +68,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = inputDir * dashSpeed;
             
             dashTime -= Time.deltaTime;
-        }
-        else
+        }else 
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_run")|| animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_idle"))
         {
             rb.MovePosition(rb.position + inputDir * characterSpeed * Time.fixedDeltaTime);
             rb.velocity = Vector2.zero;
