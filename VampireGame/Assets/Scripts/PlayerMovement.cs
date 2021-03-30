@@ -11,13 +11,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 inputDir;
     public Animator animator;
     private Rigidbody2D rb;
-
     public float dashSpeed;
-    public float dashTime;
-    public float dashDuration;
     public GameObject TransformCloudEffect;
-    public float batDuration;
-    private float transitionTimer;
+
 
     void Awake()
     {
@@ -50,25 +46,22 @@ public class PlayerMovement : MonoBehaviour
         // ENABLE DASH
         if (Input.GetKeyDown(KeyCode.Space) && !VampStationary())
         {
-            dashTime = dashDuration;
             Instantiate(TransformCloudEffect, transform.position, transform.rotation);
-            transitionTimer = batDuration;
+            animator.Play("vamp_bat");
+            /*dashTime = dashDuration;
+            transitionTimer = batDuration;*/
         }
-
-        
 
     }
 
     void FixedUpdate()
     {
         // only sets walk movement when not in a dash
-        if (dashTime >= 0)
+        if (VampDashing())
         {
             Debug.Log("dashing");
-            rb.velocity = inputDir * dashSpeed;
-            
-            dashTime -= Time.deltaTime;
-        }else 
+            rb.velocity = inputDir * dashSpeed;          
+        }
         if(VampDefaultMotion())
         {
             rb.MovePosition(rb.position + inputDir * characterSpeed * Time.fixedDeltaTime);
@@ -78,17 +71,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
-
-        if (transitionTimer >= 0)
-        {
-            animator.SetBool("Dash", true);
-            transitionTimer -= Time.deltaTime;
-        }
-        else
-        {
-            animator.SetBool("Dash", false);
-        }
-
     }
 
     private bool VampStationary()
@@ -109,6 +91,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_run") 
             || animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_idle"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool VampDashing()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_bat"))
         {
             return true;
         }
