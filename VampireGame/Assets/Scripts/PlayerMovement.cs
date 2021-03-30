@@ -22,25 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // BASIC MOVEMENT STUFF
-        float VertInput = Input.GetAxisRaw("Vertical");
-        float HorInput = Input.GetAxisRaw("Horizontal");
-        inputDir = new Vector2(HorInput, VertInput).normalized;
-        if (HorInput < 0)
+        // ENABLE MOVEMENT STUFF
+        if (VampDefaultMotion())
         {
-            transform.GetComponent<SpriteRenderer>().flipX = true;
-        }
-        else if (HorInput > 0)
-        {
-            transform.GetComponent<SpriteRenderer>().flipX = false;
-
-        }
-        if (inputDir != Vector2.zero)
-        {
-            animator.SetBool("Running", true);
-        }else
-        {
-            animator.SetBool("Running", false);
+            GetMovementInput();
         }
 
         // ENABLE DASH
@@ -48,15 +33,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Instantiate(TransformCloudEffect, transform.position, transform.rotation);
             animator.Play("vamp_bat");
-            /*dashTime = dashDuration;
-            transitionTimer = batDuration;*/
         }
 
     }
 
     void FixedUpdate()
     {
-        // only sets walk movement when not in a dash
+        //EXECUTE MOVEMENT & DASH PHYSICS
         if (VampDashing())
         {
             Debug.Log("dashing");
@@ -109,6 +92,31 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    private void GetMovementInput()
+    {
+        float VertInput = Input.GetAxisRaw("Vertical");
+        float HorInput = Input.GetAxisRaw("Horizontal");
+        inputDir = new Vector2(HorInput, VertInput).normalized;
+
+        if (HorInput < 0)
+        {
+            transform.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if (HorInput > 0)
+        {
+            transform.GetComponent<SpriteRenderer>().flipX = false;
+
+        }
+        if (inputDir != Vector2.zero)
+        {
+            animator.SetBool("Running", true);
+        }
+        else
+        {
+            animator.SetBool("Running", false);
         }
     }
 }

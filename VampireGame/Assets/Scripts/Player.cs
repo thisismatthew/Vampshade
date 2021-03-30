@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public bool day = true;
     public Vector2 levelStart;
     private Animator animator;
+    public Animator transitionWipeAnimator;
+    public List<Renderer> shadowRenderers;
 
     void Start()
     {
@@ -26,15 +28,31 @@ public class Player : MonoBehaviour
         startColor = spriteRenderer.material.GetColor("_Color");
         currentHealth = maxHealth;
         healthBar.SetMaxHealth((int)maxHealth);
+        shadowRenderers = new List<Renderer>();
+        foreach (GameObject shadow in GameObject.FindGameObjectsWithTag("shadow"))
+        {
+            shadowRenderers.Add(shadow.GetComponent<Renderer>());
+        }
+
     }
 
     private void Update()
     {
-        CheckShade();
-
+        if (day)
+        {
+            CheckShade();
+        }
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (day) { day = false; } else { day = true; }
+            if (day) { 
+                day = false;
+                transitionWipeAnimator.Play("day_to_night");
+            } else {
+                day = true;
+                transitionWipeAnimator.Play("night_to_day");
+            }
+            ToggleShadows(day);
             Debug.Log("Sleeptime");
             animator.Play("vamp_coffin_in");
         }
@@ -71,5 +89,13 @@ public class Player : MonoBehaviour
         transform.position = levelStart;
         //set the level to be day or night
         animator.Play("vamp_coffin_out");
+    }
+
+    private void ToggleShadows(bool condition)
+    {
+        foreach (Renderer renderer in shadowRenderers)
+        {
+            renderer.enabled = condition;
+        }
     }
 }

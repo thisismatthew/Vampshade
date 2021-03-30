@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 881527137772189528}
   m_Layer: 0
   m_Name: BigCrate_Shadow
-  m_TagString: Untagged
+  m_TagString: shadow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,9 +279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc6bebe300f4a644ba217d1ab2b48da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vamp: {fileID: 0}
-  startColor: {r: 0, g: 0, b: 0, a: 0}
-  shadedColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7890880324777917815
 GameObject:
   m_ObjectHideFlags: 0
