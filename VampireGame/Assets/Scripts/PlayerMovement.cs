@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ENABLE DASH
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !VampStationary())
         {
             dashTime = dashDuration;
             Instantiate(TransformCloudEffect, transform.position, transform.rotation);
@@ -69,11 +69,14 @@ public class PlayerMovement : MonoBehaviour
             
             dashTime -= Time.deltaTime;
         }else 
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_run")|| animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_idle"))
+        if(VampDefaultMotion())
         {
             rb.MovePosition(rb.position + inputDir * characterSpeed * Time.fixedDeltaTime);
             rb.velocity = Vector2.zero;
-
+        }
+        if (VampStationary())
+        {
+            rb.velocity = Vector2.zero;
         }
 
         if (transitionTimer >= 0)
@@ -86,5 +89,32 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Dash", false);
         }
 
+    }
+
+    private bool VampStationary()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_die") 
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_coffin_in")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_coffin_out"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool VampDefaultMotion()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_run") 
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("vamp_idle"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
