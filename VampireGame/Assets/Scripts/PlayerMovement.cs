@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ENABLE DASH
-        if (Input.GetKeyDown(KeyCode.Space) && !VampStationary())
+        if ((Input.GetKeyDown("space")|| Input.GetButtonDown("Fire1")) && !VampStationary())
         {
             Instantiate(TransformCloudEffect, transform.position, transform.rotation);
             animator.Play("vamp_bat");

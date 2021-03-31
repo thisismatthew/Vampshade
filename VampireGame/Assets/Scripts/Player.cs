@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
             CheckShade();
         }
         
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)|| Input.GetButtonDown("Fire2"))
         {
             if (day) { 
                 day = false;
