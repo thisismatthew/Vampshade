@@ -38,6 +38,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        //TODO better layer sorting for objects that are close to one another. 
+        //spriteRenderer.sortingOrder = (int)transform.position.y;
+
         if (day)
         {
             CheckShade();
