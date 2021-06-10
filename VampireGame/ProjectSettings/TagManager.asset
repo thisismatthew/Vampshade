@@ -9,6 +9,9 @@ TagManager:
   - sortBehind
   - sortInfront
   - player
+  - Bullet
+  - TransitionAnimator
+  - HealthBar
   layers:
   - Default
   - TransparentFX
