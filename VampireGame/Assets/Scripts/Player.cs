@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public float currentHealth;
     //should probably make sure that the vamp can't be in negative shadows... 
     public int shaded = 0;
-    public int layerColliderCounter = 0;
+    
     public HealthBar healthBar;
     public int LightIntensity = 10;
     private Color startColor;
